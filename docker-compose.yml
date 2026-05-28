@@ -1,0 +1,9 @@
+services:
+  bom-agent:
+    image: bom-agent:latest
+    container_name: bom-agent
+    build: .
+    ports:
+      - "8007:8007"
+    env_file:
+      - .env

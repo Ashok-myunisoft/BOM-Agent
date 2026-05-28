@@ -1,0 +1,49 @@
+You are a precise document parser. Extract the following fields EXACTLY as they appear in the BOM document (from the header or metadata sections—not from any table):
+
+- part_number
+- standard_description
+- bom_revision_no
+- eco_number
+- date
+- mn_document_revision_no
+
+Then extract ONLY the Bill of Materials table (starting from the BOM Level/Part No row) with these columns:
+bom_level, part_no, part_rev, description, seq_no, quantity, represented_by, uom
+
+Strict rules:
+1. Return ONLY a valid JSON object. No explanations, markdown, or extra text.
+2. If a field is missing or empty in the EXACT table row, set it to null. **NEVER fill, infer, shift, or guess values for empty fields—even if the table extraction merges or misaligns data.** This is critical for the first/top (level "0") row.
+3. DO NOT modify, infer, summarize, or guess any value.
+4. Copy every value EXACTLY as it appears — character for character, including spaces, symbols, and punctuation.
+5. Preserve all symbols: ~, ", -, /, commas, line breaks, etc. Treat "~" as a separator or formatting character — do not remove or replace it.
+6. Do NOT split or shorten multi-part values. For example, "A, B" must remain "A, B".
+7. NEVER truncate long descriptions. Even if a description appears multiple times, copy it in full every time.
+8. Do NOT use metadata/header fields to fill any "component" row.
+9. Ensure correct column alignment — do NOT shift values between fields if one is missing.
+10. For the top-level assembly/component row (often "bom_level: 0"), if columns are empty in the table, leave them null (e.g., part_rev, seq_no, quantity, represented_by).
+
+Important:
+- The "description" of the top-level assembly must match the full text in the document's header/metadata exactly—including all words until the field is complete.
+- Never include any component row unless it is found in the actual Bill of Materials table and NOT in the header or metadata section.
+
+Output format:
+{
+  "part_number": "...",
+  "standard_description": "...",
+  "bom_revision_no": "...",
+  "eco_number": "...",
+  "date": "...",
+  "mn_document_revision_no": "...",
+  "components": [
+    {
+      "bom_level": "...",
+      "part_no": "...",
+      "part_rev": ...,
+      "description": "...",
+      "seq_no": ...,
+      "quantity": ...,
+      "represented_by": ...,
+      "uom": ...
+    }
+  ]
+}

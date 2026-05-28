@@ -1,0 +1,20 @@
+# Git
+.git
+.gitignore
+
+# Python virtual environment
+.venv
+venv/
+env/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# IDE folders
+.idea/
+.vscode/
+
+# Environment files (secrets)
+.env
+*.env
