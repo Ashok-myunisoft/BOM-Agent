@@ -28,4 +28,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: yourdockerhubusername/bom-agent:latest
+          tags: ashok1952/bom-agent:latest
